@@ -34,9 +34,10 @@
   .hero .ch { animation-delay: calc(7.2s + var(--i) * .085s); }
   .hero .hw { animation-delay: calc(8.6s + var(--i) * .14s); }
   @keyframes chIn { to { opacity: 1; transform: none; filter: none; } }
-  .hint { position: absolute; bottom: calc(env(safe-area-inset-bottom) + 22px); font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: #a58bd6; opacity: 0; animation: rise 2s ease 10.6s forwards, bob 2.4s ease-in-out 12.6s infinite; }
+  .hint { position: absolute; bottom: calc(env(safe-area-inset-bottom) + 22px); font-family: 'Jost', sans-serif; font-size: 19px; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: #e6d6ff; text-shadow: 0 0 14px rgba(190,140,255,.9), 0 0 34px rgba(130,70,255,.7); opacity: 0; animation: rise 2s ease 10.6s forwards, bob 1.8s ease-in-out 12.6s infinite; }
+  .hint::after { content: '\2193'; display: block; margin-top: 6px; font-size: 34px; line-height: 1; letter-spacing: 0; }
   @keyframes rise { to { opacity: 1; transform: none; } }
-  @keyframes bob { 50% { transform: translateY(6px); } }
+  @keyframes bob { 50% { transform: translateY(10px); } }
 
   /* 2) The letter: every word floats in (blur -> sharp, with a little purple glow) as you scroll */
   .letter { min-height: 0; padding-top: 18vh; padding-bottom: 8vh; }
@@ -99,13 +100,13 @@
 <main>
   <section class="hero">
     <h1>Can we talk?</h1>
-    <p>No jokes this time.</p>
+    <p></p>
     <div class="hint">scroll</div>
   </section>
 
   <section class="letter">
     <p class="line">I never want us to be upset with each other.</p>
-    <p class="line">I&rsquo;m sorry for saying &ldquo;I&rsquo;m still mad at you and I don&rsquo;t want to see you.&rdquo;</p>
+    <p class="line">Forgive me for saying &ldquo;I&rsquo;m still mad at you and I don&rsquo;t want to see you.&rdquo;</p>
     <p class="line">You know me, and you know I was joking.</p>
     <p class="line">I never meant for us to fight, or for me to be upset with you. Even before that, I felt like something had upset you, and I tried to make it right.</p>
     <p class="line">I honestly don&rsquo;t want you to be upset with me.</p>
@@ -115,11 +116,11 @@
     <p class="line">If someone bothers you or something goes wrong, I won&rsquo;t be there, and I just want to know you&rsquo;re safe.</p>
     <p class="line">And honestly, what also bothered me is that when I told you I was upset, it felt like the conversation didn&rsquo;t matter to you,</p>
     <p class="line">like my opinion didn&rsquo;t count, like it was just &ldquo;I&rsquo;m going, period.&rdquo;</p>
-    <p class="line">That&rsquo;s what made me say it the wrong way, and I wish I&rsquo;d told you better.</p>
-    <p class="line">Do whatever feels right to you.<br><em>I&rsquo;m with you either way.</em></p>
+    <p class="line">What I said was a joke, but it came out heavy and landed differently than I meant.</p>
+    <p class="line">Do whatever puts you at ease.<br><em>I&rsquo;m with you either way.</em></p>
     <p class="line">I might still worry a little, but only because I love you so much, not because I don&rsquo;t trust you.</p>
     <p class="line">Whatever you decide, I just want us to be okay, even if a part of me still feels a little uneasy.</p>
-    <p class="line">I&rsquo;m not expecting a reply right now, and I won&rsquo;t pressure you. Take your time. I&rsquo;m here whenever you&rsquo;re ready. &#128156;</p>
+    <p class="line">Whenever you&rsquo;re ready, I&rsquo;d love to talk it through, together. &#128156;</p>
   </section>
 
   <section class="ask">
@@ -134,7 +135,7 @@
 
 <div id="thanks">
   <h2>Thank you.</h2>
-  <p>For reading this, for caring as much as I do, and for always making us feel like one.</p>
+  <p>For reading this all the way through. I just wish we always thought things through together before acting, and stayed one.</p>
   <p class="sign">You mean the world to me. &#128156;</p>
 </div>
 
