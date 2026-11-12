@@ -229,14 +229,16 @@
   const TEASE = ['Oops, it slipped away \u{1F648}', 'Too slow \u{1F604}', 'It really doesn’t want to be pressed \u{1F49C}', 'Maybe try the other one? \u{1F60C}', 'Almost had it!'];
   let dodges = 0, lastDodge = 0;
 
-  // 3b) When she tries to press "Give me a little time", this short sound plays (once).
+  // 3b) Every time she tries to press "Give me a little time", this short sound plays again from the start.
+  // One touch fires several events at once (touchstart, pointerdown, click...), so attempts closer than 600 ms count as one.
   // The soft scroll sound steps aside so the two don't talk over each other.
   const lsnd = document.getElementById('laterSound'); lsnd.volume = .9;
-  let lsndDone = false;
+  let lastPress = 0;
   function pressSound() {
-    if (lsndDone || accepted) return;
-    let pl; try { pl = lsnd.play(); } catch (e) { return; }
-    const ok = function () { lsndDone = true; try { amb.pause(); } catch (e) {} };
+    if (accepted) return;
+    const now = performance.now(); if (now - lastPress < 600) return;
+    let pl; try { lsnd.currentTime = 0; pl = lsnd.play(); } catch (e) { return; }
+    const ok = function () { lastPress = now; try { amb.pause(); } catch (e) {} };
     if (pl && pl.then) pl.then(ok).catch(function () {}); else ok();
   }
   ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click'].forEach(function (ev) {
