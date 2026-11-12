@@ -98,6 +98,7 @@
 <canvas id="c"></canvas>
 <audio id="song" src="thanks.m4a" preload="auto"></audio>
 <audio id="ambient" src="scroll.m4a" preload="auto"></audio>
+<audio id="laterSound" src="later.m4a" preload="auto"></audio>
 <div id="veil"></div>
 
 <main>
@@ -227,9 +228,24 @@
   const CATCH_AFTER = 0;   // 0 = the button runs away forever. Put e.g. 8 to let her catch it after 8 escapes.
   const TEASE = ['Oops, it slipped away \u{1F648}', 'Too slow \u{1F604}', 'It really doesn’t want to be pressed \u{1F49C}', 'Maybe try the other one? \u{1F60C}', 'Almost had it!'];
   let dodges = 0, lastDodge = 0;
+
+  // 3b) When she tries to press "Give me a little time", this short sound plays (once).
+  // The soft scroll sound steps aside so the two don't talk over each other.
+  const lsnd = document.getElementById('laterSound'); lsnd.volume = .9;
+  let lsndDone = false;
+  function pressSound() {
+    if (lsndDone || accepted) return;
+    let pl; try { pl = lsnd.play(); } catch (e) { return; }
+    const ok = function () { lsndDone = true; try { amb.pause(); } catch (e) {} };
+    if (pl && pl.then) pl.then(ok).catch(function () {}); else ok();
+  }
+  ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click'].forEach(function (ev) {
+    wait.addEventListener(ev, pressSound, { passive: true });
+  });
   function say(msg) { later.textContent = msg; later.classList.add('show'); }
   function dodge(px, py) {
     if (accepted) return;
+    pressSound();
     if (CATCH_AFTER && dodges >= CATCH_AFTER) return;
     const now = performance.now(); if (now - lastDodge < 80) return; lastDodge = now;
     const r = wait.getBoundingClientRect(), s = slot.getBoundingClientRect(), a = ask.getBoundingClientRect();
@@ -277,6 +293,7 @@
     try {                                              // the soft scroll sound steps aside for the "Thank you" sound
       let av = amb.volume; const fo = setInterval(function () { av = Math.max(0, av - .07); amb.volume = av; if (av <= 0) { clearInterval(fo); amb.pause(); } }, 100);
       setTimeout(function () { amb.pause(); }, 1500);
+      lsnd.pause();
     } catch (e) {}
     try {                                              // the sound: plays once, fading in softly, right as "Thank you" appears
       const song = document.getElementById('song'); song.volume = 0;
