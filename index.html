@@ -154,6 +154,17 @@
 (function () {
   const $ = s => document.querySelector(s);
 
+  // Visit counter (no account). Counts once per browser session.
+  // To NOT count your own visits: open the page once on your phone with ?me at the end of the link, e.g. .../adh3mm/?me
+  // To see the count, open: https://countapi.mileshilliard.com/api/v1/get/adh3mm_010ca897cf1765b4
+  try {
+    if (/[?&]me(=|&|$)/.test(location.search)) localStorage.setItem('noCount', '1');
+    if (!localStorage.getItem('noCount') && !sessionStorage.getItem('counted')) {
+      sessionStorage.setItem('counted', '1');
+      new Image().src = 'https://countapi.mileshilliard.com/api/v1/hit/adh3mm_010ca897cf1765b4?t=' + Date.now();
+    }
+  } catch (e) {}
+
   // Splits an element's text into word <span>s (keeps <br> and <em>); each gets a stagger index --i
   function splitWords(root, cls, start) {
     let i = start || 0;
