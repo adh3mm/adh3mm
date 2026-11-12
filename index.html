@@ -97,6 +97,7 @@
 <body>
 <canvas id="c"></canvas>
 <audio id="song" src="song.m4a" preload="auto"></audio>
+<audio id="ambient" src="ambient.m4a" preload="auto"></audio>
 <div id="veil"></div>
 
 <main>
@@ -206,6 +207,20 @@
   }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
+  // 2b) A soft sound that starts the first time she scrolls down (quiet, fades in, plays once).
+  // Browsers only allow sound after a real touch/click, so if the scroll alone is refused, the next tap or touch release starts it.
+  const amb = document.getElementById('ambient'); amb.volume = .7;
+  let ambDone = false, ambWanted = false;
+  function tryAmbient() {
+    if (ambDone || accepted) return;
+    let pl; try { pl = amb.play(); } catch (e) { return; }
+    if (pl && pl.then) pl.then(function () { ambDone = true; }).catch(function () {}); else ambDone = true;
+  }
+  window.addEventListener('scroll', function () { if (window.scrollY > 24) { ambWanted = true; tryAmbient(); } }, { passive: true });
+  ['touchend', 'pointerup', 'click', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, function () { if (ambWanted) tryAmbient(); }, { passive: true });
+  });
+
   // 3) The buttons. "Give me a little time" runs away, so the only button you can press is Yes.
   const later = $('#later'), yes = $('#yes'), wait = $('#wait'), slot = $('#slot');
   const CATCH_AFTER = 0;   // 0 = the button runs away forever. Put e.g. 8 to let her catch it after 8 escapes.
@@ -258,6 +273,10 @@
 
   yes.addEventListener('click', () => {
     accepted = true; later.classList.remove('show');
+    try {                                              // the soft scroll sound steps aside for the "Thank you" sound
+      let av = amb.volume; const fo = setInterval(function () { av = Math.max(0, av - .07); amb.volume = av; if (av <= 0) { clearInterval(fo); amb.pause(); } }, 100);
+      setTimeout(function () { amb.pause(); }, 1500);
+    } catch (e) {}
     try {                                              // the sound: plays once, fading in softly, right as "Thank you" appears
       const song = document.getElementById('song'); song.volume = 0;
       const pl = song.play(); if (pl && pl.catch) pl.catch(function () {});
