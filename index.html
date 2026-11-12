@@ -97,7 +97,7 @@
 <body>
 <canvas id="c"></canvas>
 <audio id="song" src="thanks.m4a" preload="auto"></audio>
-<audio id="ambient" src="ambient.m4a" preload="auto"></audio>
+<audio id="ambient" src="scroll.m4a" preload="auto"></audio>
 <div id="veil"></div>
 
 <main>
@@ -217,8 +217,9 @@
     if (pl && pl.then) pl.then(function () { ambDone = true; }).catch(function () {}); else ambDone = true;
   }
   window.addEventListener('scroll', function () { if (window.scrollY > 24) { ambWanted = true; tryAmbient(); } }, { passive: true });
-  ['touchend', 'pointerup', 'click', 'keydown'].forEach(function (ev) {
-    window.addEventListener(ev, function () { if (ambWanted) tryAmbient(); }, { passive: true });
+  // The very first touch asks for the sound; if the phone refuses until the finger lifts, the touch release / tap retries it.
+  ['touchstart', 'pointerdown', 'touchend', 'pointerup', 'click', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, function () { ambWanted = true; tryAmbient(); }, { passive: true });
   });
 
   // 3) The buttons. "Give me a little time" runs away, so the only button you can press is Yes.
