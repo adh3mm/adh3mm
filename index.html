@@ -96,6 +96,7 @@
 </head>
 <body>
 <canvas id="c"></canvas>
+<audio id="song" src="song.m4a" preload="auto"></audio>
 <div id="veil"></div>
 
 <main>
@@ -257,6 +258,11 @@
 
   yes.addEventListener('click', () => {
     accepted = true; later.classList.remove('show');
+    try {                                              // the sound: plays once, fading in softly, right as "Thank you" appears
+      const song = document.getElementById('song'); song.volume = 0;
+      const pl = song.play(); if (pl && pl.catch) pl.catch(function () {});
+      let vol = 0; const fade = setInterval(function () { vol = Math.min(1, vol + .05); song.volume = vol; if (vol >= 1) clearInterval(fade); }, 100);
+    } catch (e) {}
     cv.style.opacity = 1; cv.style.filter = 'none'; veil.style.opacity = 0;
     document.body.style.overflow = 'hidden';
     window.scrollTo({ top: 0, behavior: 'smooth' });
