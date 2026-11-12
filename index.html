@@ -75,15 +75,23 @@
   #later.show { opacity: 1; }
 
   /* 4) Thank-you overlay */
-  #thanks { position: fixed; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 12vh 28px 0; text-align: center; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; background: linear-gradient(to bottom, rgba(7,2,15,.92), rgba(7,2,15,.55) 38%, rgba(7,2,15,0) 70%); }
+  #thanks { position: fixed; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 12vh 28px 0; text-align: center; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; background: linear-gradient(to bottom, rgba(7,2,15,.92), rgba(7,2,15,.68) 50%, rgba(7,2,15,0) 85%); }
   #thanks.show { opacity: 1; }
   #thanks h2 { margin: 0; font-size: clamp(50px, 13vw, 92px); font-style: italic; font-weight: 500;
     --ts: 0 0 20px rgba(190,140,255,.9), 0 0 60px rgba(130,70,255,.7); text-shadow: var(--ts); }
   #thanks p { margin: 18px 0 0; max-width: 520px; font-size: clamp(22px, 5vw, 30px); line-height: 1.3; color: var(--soft);
     --ts: 0 2px 22px rgba(7,2,15,.95), 0 0 30px rgba(7,2,15,.8); text-shadow: var(--ts); }
+  #thanks p.plea { margin-top: 14px; font-size: clamp(19px, 4.4vw, 26px); color: var(--ink); }
   #thanks p.sign { margin-top: 22px; color: var(--ink); font-style: italic; }
-  #thanks .w { transition-delay: calc(.7s + var(--i, 0) * 110ms); }
-  #thanks.show .w { opacity: 1; transform: none; filter: none; animation: sparkle 1.8s ease both; animation-delay: calc(.7s + var(--i, 0) * 110ms); }
+  @media (max-height: 700px) {   /* small phones: tighten the thank-you page so all of it fits on screen */
+    #thanks { padding-top: 6vh; }
+    #thanks h2 { font-size: clamp(38px, 11vw, 60px); }
+    #thanks p { margin-top: 10px; font-size: 18px; }
+    #thanks p.plea { margin-top: 9px; font-size: 17px; }
+    #thanks p.sign { margin-top: 14px; }
+  }
+  #thanks .w { transition-delay: calc(.7s + var(--i, 0) * 70ms); }
+  #thanks.show .w { opacity: 1; transform: none; filter: none; animation: sparkle 1.8s ease both; animation-delay: calc(.7s + var(--i, 0) * 70ms); }
   .petal { position: fixed; top: -40px; z-index: 6; width: 14px; height: 22px; border-radius: 80% 0 80% 0; background: linear-gradient(#f0d9ff, #b07cff); opacity: .9; pointer-events: none; animation: fall linear forwards; }
   .petal.heart { width: auto; height: auto; border-radius: 0; background: none; line-height: 1; }
   @keyframes fall { to { transform: translate3d(var(--dx), 110vh, 0) rotate(var(--rot)); opacity: .2; } }
@@ -146,6 +154,9 @@
 <div id="thanks">
   <h2>Thank you.</h2>
   <p>For reading this all the way through. I just wish we always thought things through together before acting, and stayed one.</p>
+  <p class="plea">I don&rsquo;t want to lose you, and I don&rsquo;t want this to grow any bigger than it already is.</p>
+  <p class="plea">I&rsquo;m not asking you to forget what happened. I just want us to undo the blocks, talk, and work it out the way we always do.</p>
+  <p class="plea">We&rsquo;ve been through so much harder things than this. This can&rsquo;t be where it ends.</p>
   <p class="sign">You mean the world to me. &#128156;</p>
 </div>
 
